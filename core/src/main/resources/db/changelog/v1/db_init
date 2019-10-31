@@ -1,0 +1,49 @@
+create table users
+(
+    id       serial not null
+        constraint table_name_pk
+            primary key,
+    email    text   not null,
+    password text   not null
+);
+
+alter table users
+    owner to postgres;
+
+create unique index table_name_email_uindex
+    on users (email);
+
+create unique index table_name_id_uindex
+    on users (id);
+
+
+create table roles
+(
+    id   serial not null
+        constraint roles_pk
+            primary key,
+    role text   not null
+);
+
+alter table roles
+    owner to postgres;
+
+create unique index roles_id_uindex
+    on roles (id);
+
+create unique index roles_role_uindex
+    on roles (role);
+
+
+create table users_roles
+(
+    user_id serial not null
+        constraint fk_users
+            references users,
+    role_id serial not null
+        constraint fk_roles
+            references roles
+);
+
+alter table users_roles
+    owner to postgres;
