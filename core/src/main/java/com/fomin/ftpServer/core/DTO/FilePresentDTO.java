@@ -21,8 +21,8 @@ public class FilePresentDTO {
 
     public FilePresentDTO(File ID, int countNotes) {
         this.ID = ID;
-        this.fileName = FilenameUtils.getName(ID.getAbsolutePath());
-        this.fileType = FilenameUtils.getExtension(ID.getAbsolutePath());
+        this.fileName = FilenameUtils.getBaseName(ID.getAbsolutePath());
+        this.fileType = gettingFileType(ID.getAbsolutePath());
         this.size=gettingSize();
         this.countNotes = countNotes;
         setUri();
@@ -48,5 +48,11 @@ public class FilePresentDTO {
         }else {
             return size+" byte";
         }
+    }
+    private String gettingFileType(String path){
+        if(new File(path).isFile()){
+            return FilenameUtils.getExtension(path);
+        }
+        return "directory";
     }
 }
