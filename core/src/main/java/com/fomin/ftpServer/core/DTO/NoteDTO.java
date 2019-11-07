@@ -1,9 +1,6 @@
 package com.fomin.ftpServer.core.DTO;
 
-import com.fomin.ftpServer.core.model.User;
 import lombok.*;
-
-import java.util.Set;
 
 
 @Getter
@@ -11,7 +8,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO {
+public class NoteDTO {
     private Long id;
-    private String role;
+    private String text;
+    private String date;
 }

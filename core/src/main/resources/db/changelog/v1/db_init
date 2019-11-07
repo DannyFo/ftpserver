@@ -37,13 +37,47 @@ create unique index roles_role_uindex
 
 create table users_roles
 (
-    user_id serial not null
+    user_id integer not null
         constraint fk_users
             references users,
-    role_id serial not null
+    role_id serial  not null
         constraint fk_roles
             references roles
 );
 
 alter table users_roles
     owner to postgres;
+
+
+create table notelist
+(
+    id   serial not null
+        constraint notelist_pk
+            primary key,
+    path text   not null
+);
+
+alter table notelist
+    owner to postgres;
+
+create unique index notelist_path_uindex
+    on notelist (path);
+
+
+create table notes
+(
+    id          serial  not null
+        constraint notes_pk
+            primary key,
+    text        text    not null,
+    date        text    not null,
+    notelist_id integer not null
+        constraint fk_notelist_id
+            references notelist
+            on update cascade on delete cascade
+);
+
+alter table notes
+    owner to postgres;
+
+

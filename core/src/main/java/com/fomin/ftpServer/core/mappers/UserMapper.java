@@ -5,7 +5,6 @@ import com.fomin.ftpServer.core.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import org.springframework.context.annotation.Bean;
 
 @Mapper
 public interface UserMapper {
