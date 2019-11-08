@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository//надо будет сделать через path с кодированием
 public interface NoteListRepository extends CrudRepository<NoteList, Long> {
     NoteList getById(Long id);
+    NoteList getByPath(String path);
 }

@@ -1,7 +1,7 @@
 package com.fomin.ftpServer.core.DTO;
 
+import com.fomin.ftpServer.core.util.FileUtil;
 import lombok.Getter;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @Getter
+
 public class FilePresentDTO {
 
     private File ID ;
@@ -22,8 +23,8 @@ public class FilePresentDTO {
     public FilePresentDTO(File ID, int countNotes) {
         this.ID = ID;
         this.fileName = FilenameUtils.getBaseName(ID.getAbsolutePath());
-        this.fileType = gettingFileType(ID.getAbsolutePath());
-        this.size=gettingSize();
+        this.fileType = FileUtil.getFileType(ID);
+        this.size= FileUtil.sizeConvert(ID);
         this.countNotes = countNotes;
         setUri();
     }
@@ -35,24 +36,5 @@ public class FilePresentDTO {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    }
-
-    private String gettingSize(){
-        long size = FileUtils.sizeOf(ID);
-        if(size>1000){
-            size=size/1024;//kb
-            if((size/1024)>1000){
-                size=size/1024;//mb
-                return size/1024+" mb";
-            }return size+" kb";
-        }else {
-            return size+" byte";
-        }
-    }
-    private String gettingFileType(String path){
-        if(new File(path).isFile()){
-            return FilenameUtils.getExtension(path);
-        }
-        return "directory";
     }
 }

@@ -1,11 +1,10 @@
 package com.fomin.ftpServer.core.DAO;
 
 import java.io.File;
-import java.util.List;
 
-public interface InterfaceFileManagerDAO {
+public interface InterfaceFileDAO {
 
-    void createFile(File file);
+    void createFile(File file, String fileType);
 
     void deleteFile(File file);
 
@@ -13,5 +12,5 @@ public interface InterfaceFileManagerDAO {
 
     File up(File file);
 
-    List<File> getListFiles();
+    File[] getListFiles(File file);
 }

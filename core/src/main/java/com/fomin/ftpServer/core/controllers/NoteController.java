@@ -1,16 +1,13 @@
 package com.fomin.ftpServer.core.controllers;
 
 import com.fomin.ftpServer.core.DTO.NoteDTO;
-import com.fomin.ftpServer.core.DTO.NoteListDTO;
 import com.fomin.ftpServer.core.mappers.NoteMapper;
 import com.fomin.ftpServer.core.model.Note;
-import com.fomin.ftpServer.core.model.NoteList;
-import com.fomin.ftpServer.core.services.InterfaceListNoteService;
 import com.fomin.ftpServer.core.services.InterfaceNoteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
