@@ -4,10 +4,12 @@ import com.fomin.ftpServer.core.util.FileUtil;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 
+@Component
 @NoArgsConstructor
 public class FileDAO implements InterfaceFileDAO {
 
