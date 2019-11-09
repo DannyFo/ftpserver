@@ -18,4 +18,9 @@ public class NoteListService implements InterfaceListNoteService {
     public NoteList getNoteList(Long id) {
         return noteListRepository.getById(id);
     }
+
+    @Override
+    public NoteList getNoteList(String path) {
+        return noteListRepository.getByPath(path);
+    }
 }

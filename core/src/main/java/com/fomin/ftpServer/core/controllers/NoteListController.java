@@ -13,13 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NoteListController {
 
-    private final InterfaceListNoteService noteService;
-    private final NoteListMapper noteMapper;
+    private final InterfaceListNoteService listNoteService;
+    private final NoteListMapper noteListMapper;
 
     @GetMapping("/noteList/{id}")
     public NoteListDTO getNote(@PathVariable Long id){
-        NoteList noteList = noteService.getNoteList(id);
-        return noteMapper.toDTO(noteList);
+        NoteList noteList = listNoteService.getNoteList(id);
+        return noteListMapper.toDTO(noteList);
+    }
+
+    @GetMapping("/noteListPath/{path}")
+    public NoteListDTO getNoteByPath(@PathVariable String path){
+        NoteList noteList = listNoteService.getNoteList(path);
+        return noteListMapper.toDTO(noteList);
     }
 }
-
