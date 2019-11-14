@@ -1,12 +1,10 @@
 package com.fomin.ftpServer.core.controllers;
 
+import com.fomin.ftpServer.core.DTO.CreateFileDTO;
 import com.fomin.ftpServer.core.DTO.FilePresentDTO;
 import com.fomin.ftpServer.core.services.InterfaceFilePresentListService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -29,11 +27,16 @@ public class BrowserController {
         return filePresentListService.getFilePresentList(new File("D://java//test"));
     }
 
-    @GetMapping("/openFolder/{uri}")
-    public List<FilePresentDTO> openFolder(@PathVariable String uri) throws UnsupportedEncodingException {
+    @GetMapping("/openFolder")
+    public List<FilePresentDTO> openFolder(@RequestParam String uri) throws UnsupportedEncodingException {
         return filePresentListService.getFilePresentList(new File(decode(uri)));
     }
 
+    @PostMapping
+    public List<FilePresentDTO> createFile(@RequestBody CreateFileDTO createFileDTO){
+        CreateFileDTO fileDTO = createFileDTO;
+        String name= fileDTO.getFileName();
+        return filePresentListService.create(new File(fileDTO.getFileName()),fileDTO.getFileType());
+    }
+
 }
-//http://localhost:8080/fileBrowser/browser?ID=D%3A%5Cjava%5Ctest%5Cdownload&action=open
-//http://localhost:8080/browse/openFolder/D%3A%5Cjava%5Ctest%5Cdownload
