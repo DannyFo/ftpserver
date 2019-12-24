@@ -1,5 +1,7 @@
 package com.fomin.ftpServer.core.DAO;
 
+import com.fomin.ftpServer.core.DTO.FilePresentListDTO;
+
 import java.io.File;
 
 public interface InterfaceFileDAO {
@@ -12,5 +14,5 @@ public interface InterfaceFileDAO {
 
     File up(File file);
 
-    File[] getListFiles(File file);
+    FilePresentListDTO getListFiles(File file);
 }

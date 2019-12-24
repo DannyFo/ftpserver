@@ -1,5 +1,7 @@
 package com.fomin.ftpServer.core.DAO;
 
+import com.fomin.ftpServer.core.DTO.FilePresentDTO;
+import com.fomin.ftpServer.core.DTO.FilePresentListDTO;
 import com.fomin.ftpServer.core.util.FileUtil;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -8,6 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 @NoArgsConstructor
@@ -29,13 +37,13 @@ public class FileDAO implements InterfaceFileDAO {
 
     @Override
     public void deleteFile(File file) {
-        if(file.isDirectory()){
+        if (file.isDirectory()) {
             try {
                 FileUtils.deleteDirectory(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             FileUtils.deleteQuietly(file);
         }
     }
@@ -54,7 +62,25 @@ public class FileDAO implements InterfaceFileDAO {
     }
 
     @Override
-    public File[] getListFiles(File file) {
-        return file.listFiles();
+    public FilePresentListDTO getListFiles(File file) {
+        List<FilePresentDTO> list = new ArrayList<>();
+        for (File fileToAdd : Objects.requireNonNull(file.listFiles())) {
+            list.add(new FilePresentDTO()
+                    .setID(fileToAdd)
+                    .setFileName(FilenameUtils.getBaseName(fileToAdd.getAbsolutePath()))
+                    .setFileType(FileUtil.getFileType(fileToAdd))
+                    .setSize(FileUtil.sizeConvert(fileToAdd))
+                    .setUri(setUri(fileToAdd)));
+        }
+        return new FilePresentListDTO().setCurrentPath(file).setFilePresentDTOList(list);
     }
+
+    private String setUri(File file) {
+        try {
+            return URLEncoder.encode(file.toString(), StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("БЕДА");
+        }
+    }
+
 }
