@@ -72,7 +72,7 @@ public class FileDAO implements InterfaceFileDAO {
                     .setSize(FileUtil.sizeConvert(fileToAdd))
                     .setUri(setUri(fileToAdd)));
         }
-        return new FilePresentListDTO().setCurrentPath(file).setFilePresentDTOList(list);
+        return new FilePresentListDTO().setCurrentPath(setUri(file)).setFilePresentDTOList(list);
     }
 
     private String setUri(File file) {

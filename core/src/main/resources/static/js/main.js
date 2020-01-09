@@ -10,9 +10,9 @@ Vue.component('file-create-form', {
 
     props: {
         currentPath: {
-          type: String,
-          required: true,
-      }
+            type: String,
+            required: true,
+        }
     },
     template:
         '<div>' +
@@ -31,7 +31,7 @@ Vue.component('file-create-form', {
                 currentPath: this.currentPath
             };
             axios.post('/browse', value)
-                .then( r => {
+                .then(r => {
                     this.$emit('addNew', r.data);
                     this.fileName = ''
                 })
@@ -45,22 +45,17 @@ Vue.component('file-create-form', {
 
 Vue.component('file-present-row', {
     props: ['file'],
-    data() {
-        return {
-            test: null,
-        }
-    },
     template:
         '<div>' +
-        '{{file.ID}} <span @click="$emit(`open`, file)"> {{file.fileName}} </span> {{file.fileType}} {{file.size}} {{file.uri}} {{file.countNotes}}' +
+        '<span @click="$emit(`open`, file)"> {{file.fileName}} </span> {{file.fileType}} {{file.size}} {{file.uri}} {{file.countNotes}}' +
+        '<span @click="$emit(`deleteF`, file)"> DELETE </span>' +
         '</div>',
 });
 
 Vue.component('file-present-list', {
     props: ['files'],
     template: '<div>' +
-
-        '<file-present-row @open="open" v-for="file in files" :key = "file.ID" :file = "file"/>' +
+        '<file-present-row @open="open" @deleteF="deleteF" v-for="file in files" :key = "file.ID" :file = "file"/>' +
         '</div>',
     created() {
         axios.get('/browse/').then(resp => {
@@ -71,6 +66,9 @@ Vue.component('file-present-list', {
     methods: {
         open(file) {
             this.$emit('open', file);
+        },
+        deleteF(file) {
+            this.$emit('deleteF', file);
         }
     }
 });
@@ -78,15 +76,20 @@ var app = new Vue({
         el: '#app',
         template: '<div>' +
             '<file-create-form @addNew="setNewData" :current-path="currentPath" />' +
-            '<file-present-list @open="openFile" @newData="setNewData" :files="files"/>' +
+            '<file-present-list @deleteF="deleteFile" @open="openFile"  @newData="setNewData" :files="files"/>' +
             '</div>',
         data: {
-            currentPath: "" ,
+            currentPath: "",
             files: []
         },
-         methods: {
+        methods: {
             openFile(file) {
-                axios.get('/browse/openFolder?uri=' + file.uri).then(r =>  {
+                axios.get('/browse/openFolder?uri=' + file.uri).then(r => {
+                    this.setNewData(r.data);
+                })
+            },
+            deleteFile(file) {
+                axios.delete('/browse?uri=' + file.uri).then(r => {
                     this.setNewData(r.data);
                 })
             },
